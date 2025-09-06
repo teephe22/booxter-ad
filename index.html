@@ -1,27 +1,61 @@
-<meta name="monetag" content="0a6919294dd93338464658aec98c5a24">
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Ad Page</title>
-  <script>
-    // Change this to your bot link
-    const botLink = "https://t.me/BooxterBot";
-
-    setTimeout(() => {
-      window.location.href = botLink;
-    }, 10000); // 10 seconds
-  </script>
+  <title>View Ad</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+      background: #f9f9f9;
+    }
+    #timer {
+      font-size: 24px;
+      margin: 20px 0;
+    }
+    #doneBtn {
+      display: none;
+      padding: 12px 20px;
+      background: #2ea44f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-  <h2>Please wait while the ad loads...</h2>
+  <h2>Ad is loading...</h2>
+  
+  <!-- Monetag SmartLink or Banner -->
+  <iframe src="https://your-monetag-smartlink-here.com" 
+          width="100%" height="400" style="border:none;">
+  </iframe>
+  
+  <div id="timer">Please wait 15 seconds...</div>
+  <button id="doneBtn">✅ I Viewed the Ad</button>
 
-  <!-- Monetag ad code here -->
-  <div id="monetag-ad" style="margin:20px 0; text-align:center;">
-    <script async src="https://alwingulla.com/88/tag.min.js" data-zone="1234567"></script>
-  </div>
+  <script>
+    let countdown = 15;
+    let timerEl = document.getElementById("timer");
+    let btn = document.getElementById("doneBtn");
 
-  <p>After 10 seconds, you’ll be redirected back to the bot.</p>
+    let interval = setInterval(() => {
+      countdown--;
+      timerEl.textContent = "Please wait " + countdown + " seconds...";
+      if(countdown <= 0) {
+        clearInterval(interval);
+        timerEl.textContent = "You can now confirm!";
+        btn.style.display = "block";
+      }
+    }, 1000);
+
+    btn.addEventListener("click", () => {
+      Telegram.WebApp.sendData("ad_viewed");
+    });
+  </script>
 </body>
 </html>
