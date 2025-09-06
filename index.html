@@ -2,60 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>View Ad</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>Ad Viewer</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 30px;
-      background: #f9f9f9;
-    }
-    #timer {
-      font-size: 24px;
-      margin: 20px 0;
-    }
-    #doneBtn {
-      display: none;
-      padding: 12px 20px;
-      background: #2ea44f;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+    body { margin:0; padding:0; display:flex; flex-direction:column; height:100vh; }
+    iframe { flex:1; border:none; }
+    #status { text-align:center; padding:10px; background:#111; color:#fff; font-size:16px; }
   </style>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <h2>Ad is loading...</h2>
-  
-  <!-- Monetag SmartLink or Banner -->
-  <iframe src="https://otieu.com/4/9787416" 
-          width="100%" height="400" style="border:none;">
-  </iframe>
-  
-  <div id="timer">Please wait 15 seconds...</div>
-  <button id="doneBtn">✅ I Viewed the Ad</button>
+  <div id="status">⏳ Please wait 5 seconds...</div>
+  <iframe src="https://otieu.com/4/9787416"></iframe>
 
   <script>
-    let countdown = 15;
-    let timerEl = document.getElementById("timer");
-    let btn = document.getElementById("doneBtn");
+    let seconds = 5;
+    let status = document.getElementById("status");
 
-    let interval = setInterval(() => {
-      countdown--;
-      timerEl.textContent = "Please wait " + countdown + " seconds...";
-      if(countdown <= 0) {
-        clearInterval(interval);
-        timerEl.textContent = "You can now confirm!";
-        btn.style.display = "block";
+    let timer = setInterval(() => {
+      seconds--;
+      status.innerText = "⏳ Please wait " + seconds + "s...";
+      if (seconds <= 0) {
+        clearInterval(timer);
+        status.innerText = "✅ Ad viewed, closing...";
+        
+        // send signal back to bot
+        Telegram.WebApp.sendData("ad_viewed");
+        
+        // close webapp
+        Telegram.WebApp.close();
       }
     }, 1000);
-
-    btn.addEventListener("click", () => {
-      Telegram.WebApp.sendData("ad_viewed");
-    });
   </script>
 </body>
 </html>
