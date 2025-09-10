@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Telegram WebApp Test</title>
+  <title>WebApp Debug</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body style="text-align:center; font-family:sans-serif;">
-  <h2>🔗 WebApp Test</h2>
-  <p>If this works, you should see a message in your bot.</p>
-
-  <button id="sendBtn">✅ Send Test Data</button>
+  <h3>WebApp Debug</h3>
+  <pre id="log"></pre>
+  <button id="sendBtn">Send Test</button>
 
   <script>
-    document.getElementById("sendBtn").addEventListener("click", () => {
-      alert("Sending test data to Telegram..."); // Debug alert
-      if (window.Telegram && Telegram.WebApp) {
-        Telegram.WebApp.sendData("test_success");
-      } else {
-        alert("Telegram WebApp API not found!");
-      }
-    });
+    function log(msg){
+      document.getElementById("log").innerText += msg + "\n";
+    }
+
+    if(window.Telegram && Telegram.WebApp){
+      log("✅ Telegram WebApp API is loaded");
+    } else {
+      log("❌ Telegram WebApp API not found");
+    }
+
+    document.getElementById("sendBtn").onclick = () => {
+      log("Sending test_success...");
+      Telegram.WebApp.sendData("test_success");
+    };
   </script>
 </body>
 </html>
