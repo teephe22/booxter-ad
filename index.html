@@ -3,88 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Watch Ad & Earn</title>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: "Google Sans", sans-serif;
-      background: #f3f4f6;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    .container {
-      max-width: 500px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    }
-    h2 {
-      color: #2563eb;
-      margin-bottom: 15px;
-    }
-    #countdown {
-      font-size: 22px;
-      font-weight: bold;
-      color: #ef4444;
-      margin: 15px 0;
-    }
-    #confirm-btn {
-      display: none;
-      background: #22c55e;
-      color: #fff;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #confirm-btn:disabled {
-      background: #94a3b8;
-      cursor: not-allowed;
-    }
-    #ads-container {
-      margin: 20px 0;
-      min-height: 250px; /* ad box */
-    }
-  </style>
+  <title>Telegram WebApp Test</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
-<body>
-  <div class="container">
-    <h2>📺 Watch the Ad</h2>
-    <p>Wait for the timer to finish, then you’ll be rewarded!</p>
+<body style="text-align:center; font-family:sans-serif;">
+  <h2>🔗 WebApp Test</h2>
+  <p>If this works, you should see a message in your bot.</p>
 
-    <!-- Ad space -->
-    <div id="ads-container">
-      <script src="//libtl.com/sdk.js" data-zone="9394302" data-sdk="show_9394302"></script>
-    </div>
-
-    <div id="countdown">⏳ 30</div>
-    <button id="confirm-btn">✅ I Watched the Ad</button>
-  </div>
+  <button id="sendBtn">✅ Send Test Data</button>
 
   <script>
-    let seconds = 10;
-    let countdownEl = document.getElementById("countdown");
-    let confirmBtn = document.getElementById("confirm-btn");
-
-    let timer = setInterval(() => {
-      seconds--;
-      countdownEl.textContent = "⏳ " + seconds;
-      if (seconds <= 0) {
-        clearInterval(timer);
-        countdownEl.textContent = "✔️ You can confirm now";
-        confirmBtn.style.display = "inline-block";
+    document.getElementById("sendBtn").addEventListener("click", () => {
+      alert("Sending test data to Telegram..."); // Debug alert
+      if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.sendData("test_success");
+      } else {
+        alert("Telegram WebApp API not found!");
       }
-    }, 1000);
-
-    confirmBtn.addEventListener("click", () => {
-      Telegram.WebApp.sendData("ad_completed");
-      confirmBtn.disabled = true;
-      confirmBtn.textContent = "Reward Sent 🎉";
     });
   </script>
 </body>
